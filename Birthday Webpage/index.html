@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday!</title>
+  <style>
+    /* CSS Styles */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Press Start 2P', cursive;
+      background: #1a1a1a;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .container {
+      text-align: center;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+      max-width: 600px;
+      width: 100%;
+      position: relative;
+      z-index: 2;
+    }
+
+    .title {
+      font-size: 30px;
+      margin-bottom: 20px;
+      color: #ff6f61;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    .message {
+      font-size: 1rem;
+      margin-bottom: 25px;
+      color: #fff;
+    }
+
+    .btn {
+      background: #ff6f61;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      font-family: 'Press Start 2P', cursive;
+    }
+
+    .btn:hover {
+      background: #ff4a3d;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    #game {
+      margin-top: 20px;
+      position: relative;
+      width: 300px;
+      height: 400px;
+      background: #333;
+      border: 2px solid #fff;
+      overflow: hidden;
+  
+    }
+
+    .balloon {
+      position: absolute;
+      bottom: -50px;
+      width: 50px; /* Adjust size as needed */
+      height: 70px; /* Adjust size as needed */
+      background-size: cover;
+      background-position: center;
+      animation: float linear infinite;
+      cursor: pointer;
+    }
+
+    @keyframes float {
+      to {
+        transform: translateY(-450px);
+      }
+    }
+
+    #score {
+      margin-top: 10px;
+      font-size: 1rem;
+      color: #fff;
+    }
+
+    #cake {
+      margin-top: 20px;
+      position: relative;
+      width: 150px;
+      height: 100px;
+      background: #d2691e;
+      border-radius: 10px;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    #candle {
+      position: absolute;
+      top: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 10px;
+      height: 40px;
+      background: #fff;
+      border-radius: 5px 5px 0 0;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+
+    #flame {
+      position: absolute;
+      top: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 15px;
+      height: 25px;
+      background: linear-gradient(to bottom, #ff6f61, #ffcc99);
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      animation: flicker 0.5s infinite alternate, glow 1s infinite alternate;
+      box-shadow: 0 0 20px rgba(255, 111, 97, 0.8);
+    }
+
+    @keyframes flicker {
+      0% {
+        transform: translateX(-50%) scale(1);
+      }
+      100% {
+        transform: translateX(-50%) scale(1.1);
+      }
+    }
+
+    @keyframes glow {
+      0% {
+        box-shadow: 0 0 20px rgba(255, 111, 97, 0.8);
+      }
+      100% {
+        box-shadow: 0 0 30px rgba(255, 111, 97, 1);
+      }
+    }
+
+    /* Confetti Animation */
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: #ff6f61;
+      animation: confetti-fall 5s linear infinite;
+      z-index: 1;
+    }
+
+    @keyframes confetti-fall {
+      0% {
+        transform: translateY(-100vh) rotate(0deg);
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+      }
+    }
+
+    /* Page 2 Styles */
+    #page2 {
+      display: none;
+    }
+
+    #cakeCont {
+      position: relative;
+      display: flex;
+      justify-content: center; /* Center horizontally */
+      align-items: center; /* Center vertically */
+      height: 200px; /* Adjust height as needed */
+    }
+
+    #surpriseText {
+      font-size: 10px;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Page 1: Balloon Game -->
+  <div id="page1" class="container">
+    <h1 class="title">🎉 Happy Birthday 🎉</h1>
+    <p class="message">Hey XX, pop as many balloons as you can in 25 seconds!</p>
+    <button id="startBtn" class="btn">Start Game</button>
+    <div id="game" class="hidden">
+      <!-- Balloons will be added here dynamically -->
+    </div>
+    <p id="score" class="hidden">Score: 0</p>
+    <button id="blowCakeBtn" class="btn hidden">Blow the Cake</button>
+  </div>
+
+  <!-- Page 2: Blow the Cake -->
+  <div id="page2" class="container">
+    <h1 class="title">🎂 Blow the Cake 🎂</h1>
+    <p>Make some wish and blow the cake</p>
+    <br><br><br>
+    <div id="cakeCont">
+      <div id="cake">
+        <div id="candle"></div>
+        <div id="flame"></div>
+      </div>
+    </div>
+    <p id="surpriseText" class="hidden" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; font-size: 16px;">
+      Wishing you a day filled with laughter, good vibes, and unforgettable moments. May this year bring you endless opportunities, success in everything you do, and all the happiness you deserve. <br><br>
+      (웃음과 좋은 에너지, 잊지 못할 순간들로 가득한 하루가 되길 바래. 올해가 XX에게 끝없는 기회와 모든 일에서의 성공, 그리고 XX이 누릴 만한 모든 행복을 가져다주길 바라.)
+    </p>
+  </div>
+
+  <!-- Confetti Elements -->
+  <div id="confetti-container"></div>
+  <br><br>
+<footer style="font-size: 7px; ">by Nozi</footer>
+  <script>
+    // JavaScript for Game, Blow the Candle (Microphone Input), and Surprise
+    const startBtn = document.getElementById('startBtn');
+    const blowCakeBtn = document.getElementById('blowCakeBtn');
+    const game = document.getElementById('game');
+    const scoreDisplay = document.getElementById('score');
+    const page1 = document.getElementById('page1');
+    const page2 = document.getElementById('page2');
+    const cake = document.getElementById('cake');
+    const flame = document.getElementById('flame');
+    const surpriseText = document.getElementById('surpriseText');
+    let score = 0;
+    let gameInterval;
+    let audioContext;
+    let analyser;
+    let microphone;
+
+    // Array of balloon images (located in the 'img' folder)
+const balloonImages = [
+  'img/1.png',
+  'img/2.png',
+  'img/3.png',
+  'img/4.png',
+  'img/5.png'
+];
+
+startBtn.addEventListener('click', () => {
+  startBtn.style.display = 'none';
+  game.classList.remove('hidden');
+  scoreDisplay.classList.remove('hidden');
+  startGame();
+});
+
+blowCakeBtn.addEventListener('click', () => {
+  page1.style.display = 'none';
+  page2.style.display = 'block';
+  setupMicrophone();
+});
+
+function startGame() {
+  // Spawn balloons
+  gameInterval = setInterval(() => {
+    const balloon = document.createElement('div');
+    balloon.classList.add('balloon');
+    balloon.style.left = `${Math.random() * 260}px`;
+    balloon.style.animationDuration = `${Math.random() * 3 + 2}s`;
+
+    // Randomly select a balloon image
+    const randomImage = balloonImages[Math.floor(Math.random() * balloonImages.length)];
+    balloon.style.backgroundImage = `url(${randomImage})`;
+
+    game.appendChild(balloon);
+
+    // Pop balloon on click
+    balloon.addEventListener('click', () => {
+      balloon.remove();
+      score++;
+      scoreDisplay.textContent = `Score: ${score}`;
+    });
+
+    // Remove balloon if it reaches the top
+    setTimeout(() => {
+      balloon.remove();
+    }, 5000); // Balloons disappear after 5 seconds
+  }, 800); // Spawn a new balloon every 800ms
+
+  // End game after 30 seconds
+  setTimeout(() => {
+    clearInterval(gameInterval);
+    game.classList.add('hidden');
+    blowCakeBtn.classList.remove('hidden');
+  }, 25000);
+}
+
+    function setupMicrophone() {
+      audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      analyser = audioContext.createAnalyser();
+      navigator.mediaDevices.getUserMedia({ audio: true })
+        .then((stream) => {
+          microphone = audioContext.createMediaStreamSource(stream);
+          microphone.connect(analyser);
+          analyser.fftSize = 256;
+          checkMicrophoneInput();
+        })
+        .catch((err) => {
+          console.error('Microphone access denied:', err);
+          alert('Please allow microphone access to blow out the candle!');
+        });
+    }
+
+    function checkMicrophoneInput() {
+      const bufferLength = analyser.frequencyBinCount;
+      const dataArray = new Uint8Array(bufferLength);
+      analyser.getByteFrequencyData(dataArray);
+
+      const volume = dataArray.reduce((sum, value) => sum + value, 0) / bufferLength;
+
+      if (volume > 10) { // Adjust sensitivity as needed
+        // Make the flame flicker more intensely
+        flame.style.transform = `translateX(-50%) scale(${1 + volume / 50})`;
+        flame.style.boxShadow = `0 0 ${20 + volume / 2}px rgba(255, 111, 97, ${0.8 + volume / 100})`;
+
+        if (volume > 50) { // Blow out the candle if volume is high
+          flame.style.display = 'none';
+          surpriseText.classList.remove('hidden');
+          addConfetti();
+          if (microphone) microphone.disconnect(); // Stop listening to the microphone
+        }
+      } else {
+        flame.style.transform = `translateX(-50%) scale(1)`;
+        flame.style.boxShadow = `0 0 20px rgba(255, 111, 97, 0.8)`;
+      }
+
+      requestAnimationFrame(checkMicrophoneInput);
+    }
+
+    function addConfetti() {
+      const confettiContainer = document.getElementById('confetti-container');
+      for (let i = 0; i < 100; i++) {
+        const confetti = document.createElement('div');
+        confetti.classList.add('confetti');
+        confetti.style.left = `${Math.random() * 100}vw`;
+        confetti.style.animationDuration = `${Math.random() * 3 + 2}s`;
+        confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+        confettiContainer.appendChild(confetti);
+      }
+    }
+  </script>
+</body>
+</html>
